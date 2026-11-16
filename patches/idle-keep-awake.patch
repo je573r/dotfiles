@@ -1,0 +1,52 @@
+--- a/.config/quickshell/ii/services/Idle.qml
++++ b/.config/quickshell/ii/services/Idle.qml
+@@ -1,4 +1,5 @@
+ pragma Singleton
++import qs
+ import qs.modules.common
+ import QtQuick
+ import Quickshell
+@@ -33,9 +34,43 @@
+         Persistent.states.idle.inhibit = root.inhibit;
+     }
+ 
++    // [local] hyprland doesnt recheck inhibitors when a layer maps, only on focus/fullscreen
++    // changes etc. so after enabling we pulse a dummy inhibitor to poke it. dumb but works
++    IdleInhibitor {
++        id: recheckKicker
++        enabled: false
++        window: idleInhibitor.window
++    }
++    Timer {
++        id: kickOnTimer
++        interval: 1500
++        onTriggered: {
++            if (!root.inhibit) return;
++            recheckKicker.enabled = true;
++            kickOffTimer.restart();
++        }
++    }
++    Timer {
++        id: kickOffTimer
++        interval: 300
++        onTriggered: recheckKicker.enabled = false
++    }
++    Connections {
++        target: GlobalStates
++        function onScreenLockedChanged() {
++            if (!GlobalStates.screenLocked && root.inhibit) kickOnTimer.restart();
++        }
++    }
++
+     IdleInhibitor {
+         id: idleInhibitor
++        onEnabledChanged: if (enabled) kickOnTimer.restart()
+         window: PanelWindow {
++            // [local] window only exists while inhibiting. hide->show forces a new surface,
++            // otherwise qs never registers the inhibitor again after a config reload
++            visible: root.inhibit && !GlobalStates.screenLocked
++            // [local] overlay because 0.57 kills top-layer inhibitors when something is fullscreen
++            WlrLayershell.layer: WlrLayer.Overlay
+             // Inhibitor requires a "visible" surface
+             // Actually not lol
+             implicitWidth: 0

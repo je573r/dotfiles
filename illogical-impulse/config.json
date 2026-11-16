@@ -1,0 +1,675 @@
+{
+  "ai": {
+    "extraModels": [
+      {
+        "api_format": "openai",
+        "description": "This is a custom model. Edit the config to add more! | Anyway, this is DeepSeek R1 Distill LLaMA 70B",
+        "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+        "homepage": "https://openrouter.ai/deepseek/deepseek-r1-distill-llama-70b:free",
+        "icon": "spark-symbolic",
+        "key_get_link": "https://openrouter.ai/settings/keys",
+        "key_id": "openrouter",
+        "model": "deepseek/deepseek-r1-distill-llama-70b:free",
+        "name": "Custom: DS R1 Dstl. LLaMA 70B",
+        "requires_key": true
+      },
+      {
+        "name": "Groq: GPT-OSS 120B",
+        "model": "openai/gpt-oss-120b",
+        "icon": "openai-symbolic",
+        "key_id": "groq",
+        "description": "Online | Groq (free tier) | OpenAI's open-weight reasoning model, very fast. Good all-rounder with tool use.",
+        "homepage": "https://console.groq.com/docs/model/openai/gpt-oss-120b",
+        "api_format": "openai_compat",
+        "requires_key": true,
+        "endpoint": "https://api.groq.com/openai/v1/chat/completions",
+        "key_get_link": "https://console.groq.com/keys",
+        "key_get_description": "**Pricing**: free tier, no card needed (rate-limited).\n\n**Instructions**: Sign in at console.groq.com, open API Keys, click Create API Key, then type `/key YOUR_KEY` here."
+      },
+      {
+        "name": "Groq: Llama 3.3 70B",
+        "model": "llama-3.3-70b-versatile",
+        "icon": "ollama-symbolic",
+        "key_id": "groq",
+        "description": "Online | Groq (free tier) | Meta's Llama 3.3 70B. Fast, solid general chat and tool use.",
+        "homepage": "https://console.groq.com/docs/model/llama-3.3-70b-versatile",
+        "api_format": "openai_compat",
+        "requires_key": true,
+        "endpoint": "https://api.groq.com/openai/v1/chat/completions",
+        "key_get_link": "https://console.groq.com/keys",
+        "key_get_description": "**Pricing**: free tier, no card needed (rate-limited).\n\n**Instructions**: Sign in at console.groq.com, open API Keys, click Create API Key, then type `/key YOUR_KEY` here."
+      },
+      {
+        "name": "Groq: Llama 3.1 8B Instant",
+        "model": "llama-3.1-8b-instant",
+        "icon": "ollama-symbolic",
+        "key_id": "groq",
+        "description": "Online | Groq (free tier) | Tiny and near-instant. Highest free rate limits; best for quick questions.",
+        "homepage": "https://console.groq.com/docs/model/llama-3.1-8b-instant",
+        "api_format": "openai_compat",
+        "requires_key": true,
+        "endpoint": "https://api.groq.com/openai/v1/chat/completions",
+        "key_get_link": "https://console.groq.com/keys",
+        "key_get_description": "**Pricing**: free tier, no card needed (rate-limited).\n\n**Instructions**: Sign in at console.groq.com, open API Keys, click Create API Key, then type `/key YOUR_KEY` here."
+      },
+      {
+        "name": "NVIDIA: Kimi K2.6",
+        "model": "moonshotai/kimi-k2.6",
+        "icon": "spark-symbolic",
+        "key_id": "nvidia",
+        "description": "Online | NVIDIA NIM (free dev tier) | Moonshot's large agentic model, strong at coding and tool use.",
+        "homepage": "https://build.nvidia.com/moonshotai/kimi-k2.6",
+        "api_format": "openai_compat",
+        "requires_key": true,
+        "endpoint": "https://integrate.api.nvidia.com/v1/chat/completions",
+        "key_get_link": "https://build.nvidia.com/settings/api-keys",
+        "key_get_description": "**Pricing**: free developer tier, no card needed (~40 requests/min).\n\n**Instructions**: Sign in at build.nvidia.com, open your profile > API Keys, click Generate API Key, then type `/key YOUR_KEY` here."
+      },
+      {
+        "name": "NVIDIA: DeepSeek V4.1 Flash",
+        "model": "deepseek-ai/deepseek-v4.1-flash",
+        "icon": "deepseek-symbolic",
+        "key_id": "nvidia",
+        "description": "Online | NVIDIA NIM (free dev tier) | DeepSeek's fast general model.",
+        "homepage": "https://build.nvidia.com/deepseek-ai/deepseek-v4.1-flash",
+        "api_format": "openai_compat",
+        "requires_key": true,
+        "endpoint": "https://integrate.api.nvidia.com/v1/chat/completions",
+        "key_get_link": "https://build.nvidia.com/settings/api-keys",
+        "key_get_description": "**Pricing**: free developer tier, no card needed (~40 requests/min).\n\n**Instructions**: Sign in at build.nvidia.com, open your profile > API Keys, click Generate API Key, then type `/key YOUR_KEY` here."
+      },
+      {
+        "name": "NVIDIA: Nemotron 3 Super 120B",
+        "model": "nvidia/nemotron-3-super-120b-a12b",
+        "icon": "spark-symbolic",
+        "key_id": "nvidia",
+        "description": "Online | NVIDIA NIM (free dev tier) | NVIDIA's own reasoning model.",
+        "homepage": "https://build.nvidia.com/nvidia/nemotron-3-super-120b-a12b",
+        "api_format": "openai_compat",
+        "requires_key": true,
+        "endpoint": "https://integrate.api.nvidia.com/v1/chat/completions",
+        "key_get_link": "https://build.nvidia.com/settings/api-keys",
+        "key_get_description": "**Pricing**: free developer tier, no card needed (~40 requests/min).\n\n**Instructions**: Sign in at build.nvidia.com, open your profile > API Keys, click Generate API Key, then type `/key YOUR_KEY` here."
+      }
+    ],
+    "systemPrompt": "## Style\n- Use casual tone, don't be formal!\n- Always be brief and to the point, unless asked otherwise\n- Don't repeat the user's question\n- Be approachable: Avoid using overly complicated, domain-specific terms and provide analogies when asked to explain a concept\n\n## Context (ignore when irrelevant)\n- You are a helpful and inspiring sidebar assistant on a {DISTRO} Linux system\n- Desktop environment: {DE}\n- Current date & time: {DATETIME}\n- Focused app: {WINDOWCLASS}\n\n## Presentation\n- Use Markdown features in your response: \n  - **Bold** text to **highlight keywords** in your response\n  - **Split long information into small sections** with h2 headers and a relevant emoji at the start of it (for example `## 🐧 Linux`). Bullet points are preferred over long paragraphs, unless you're offering writing support or instructed otherwise by the user.\n- Asked to compare different options? You should firstly use a table to compare the main aspects, then elaborate or include relevant comments from online forums *after* the table. Make sure to provide a final recommendation for the user's use case!\n- Use LaTeX formatting for mathematical and scientific notations whenever appropriate. Enclose all LaTeX '$$' delimiters. NEVER generate LaTeX code in a latex block unless the user explicitly asks for it. DO NOT use LaTeX for regular documents (resumes, letters, essays, CVs, etc.).\n\nThanks!\n",
+    "tool": "functions"
+  },
+  "appearance": {
+    "extraBackgroundTint": true,
+    "fakeScreenRounding": 1,
+    "fonts": {
+      "expressive": "Space Grotesk",
+      "iconNerd": "JetBrains Mono NF",
+      "main": "Google Sans Flex",
+      "monospace": "JetBrains Mono NF",
+      "numbers": "Google Sans Flex",
+      "reading": "Readex Pro",
+      "title": "Google Sans Flex"
+    },
+    "palette": {
+      "accentColor": "",
+      "type": "auto"
+    },
+    "transparency": {
+      "automatic": true,
+      "backgroundTransparency": 0.11,
+      "contentTransparency": 0.57,
+      "enable": true
+    },
+    "wallpaperTheming": {
+      "enableAppsAndShell": true,
+      "enableQtApps": true,
+      "enableTerminal": true,
+      "terminalGenerationProps": {
+        "forceDarkMode": false,
+        "harmonizeThreshold": 100,
+        "harmony": 0.6,
+        "termFgBoost": 0.35
+      }
+    }
+  },
+  "apps": {
+    "bluetooth": "kcmshell6 kcm_bluetooth",
+    "changePassword": "kitty -1 --hold=yes fish -i -c 'passwd'",
+    "manageUser": "kcmshell6 kcm_users",
+    "network": "kcmshell6 kcm_networkmanagement",
+    "networkEthernet": "kcmshell6 kcm_networkmanagement",
+    "taskManager": "plasma-systemmonitor --page-name Processes",
+    "terminal": "kitty -1",
+    "update": "kitty -1 --hold=yes fish -i -c 'pkexec pacman -Syu'",
+    "volumeMixer": "~/.config/hypr/hyprland/scripts/launch_first_available.sh \"pavucontrol-qt\" \"pavucontrol\""
+  },
+  "audio": {
+    "protection": {
+      "enable": false,
+      "maxAllowed": 99,
+      "maxAllowedIncrease": 10
+    }
+  },
+  "background": {
+    "hideWhenFullscreen": true,
+    "parallax": {
+      "autoVertical": false,
+      "enableSidebar": false,
+      "enableWorkspace": false,
+      "vertical": false,
+      "widgetsFactor": 1.2,
+      "workspaceZoom": 1.04
+    },
+    "thumbnailPath": "",
+    "wallpaperPath": "/home/ayush/Wallpapers/random_wallpaper.png",
+    "widgets": {
+      "clock": {
+        "cookie": {
+          "aiStyling": false,
+          "constantlyRotate": true,
+          "dateInClock": true,
+          "dateStyle": "bubble",
+          "dialNumberStyle": "full",
+          "hourHandStyle": "fill",
+          "hourMarks": false,
+          "minuteHandStyle": "medium",
+          "secondHandStyle": "dot",
+          "sides": 14,
+          "timeIndicators": true,
+          "useSineCookie": false
+        },
+        "digital": {
+          "adaptiveAlignment": true,
+          "animateChange": true,
+          "font": {
+            "family": "Google Sans Flex",
+            "roundness": 0,
+            "size": 90,
+            "weight": 350,
+            "width": 100
+          },
+          "showDate": true,
+          "vertical": false
+        },
+        "enable": true,
+        "placementStrategy": "free",
+        "quote": {
+          "enable": true,
+          "text": "    0\n  /   \\"
+        },
+        "showOnlyWhenLocked": false,
+        "style": "cookie",
+        "styleLocked": "cookie",
+        "x": 1405.78125,
+        "y": 673.30859375
+      },
+      "weather": {
+        "enable": false,
+        "placementStrategy": "free",
+        "x": 1201.87109375,
+        "y": 211.2890625
+      }
+    }
+  },
+  "bar": {
+    "autoHide": {
+      "enable": true,
+      "hoverRegionWidth": 2,
+      "pushWindows": false,
+      "showWhenPressingSuper": {
+        "delay": 140,
+        "enable": true
+      }
+    },
+    "borderless": false,
+    "bottom": false,
+    "cornerStyle": 1,
+    "floatStyleShadow": true,
+    "indicators": {
+      "notifications": {
+        "showUnreadCount": false
+      }
+    },
+    "resources": {
+      "alwaysShowCpu": true,
+      "alwaysShowSwap": true,
+      "cpuWarningThreshold": 90,
+      "memoryWarningThreshold": 95,
+      "swapWarningThreshold": 85
+    },
+    "screenList": [],
+    "showBackground": true,
+    "tooltips": {
+      "clickToShow": false
+    },
+    "topLeftIcon": "spark",
+    "utilButtons": {
+      "showColorPicker": false,
+      "showDarkModeToggle": false,
+      "showKeyboardToggle": true,
+      "showMicToggle": false,
+      "showPerformanceProfileToggle": false,
+      "showScreenRecord": true,
+      "showScreenSnip": true
+    },
+    "verbose": true,
+    "vertical": false,
+    "weather": {
+      "city": "Jamshedpur",
+      "enable": true,
+      "enableGPS": true,
+      "fetchInterval": 10,
+      "useUSCS": false
+    },
+    "workspaces": {
+      "alwaysShowNumbers": true,
+      "monochromeIcons": false,
+      "numberMap": [
+        "一",
+        "二",
+        "三",
+        "四",
+        "五",
+        "六",
+        "七",
+        "八",
+        "九",
+        "十",
+        "十一",
+        "十二",
+        "十三",
+        "十四",
+        "十五",
+        "十六",
+        "十七",
+        "十八",
+        "十九",
+        "二十"
+      ],
+      "showAppIcons": true,
+      "showNumberDelay": 500,
+      "shown": 8,
+      "useNerdFont": false
+    }
+  },
+  "battery": {
+    "automaticSuspend": true,
+    "critical": 8,
+    "full": 101,
+    "low": 20,
+    "suspend": 3
+  },
+  "calendar": {
+    "locale": "en-GB"
+  },
+  "cheatsheet": {
+    "fontSize": {
+      "comment": 12,
+      "key": 12
+    },
+    "splitButtons": false,
+    "superKey": "",
+    "useFnSymbol": false,
+    "useMacSymbol": false,
+    "useMouseSymbol": false
+  },
+  "conflictKiller": {
+    "autoKillNotificationDaemons": false,
+    "autoKillTrays": false
+  },
+  "crosshair": {
+    "code": "0;P;d;1;0l;10;0o;2;1b;0"
+  },
+  "dock": {
+    "enable": true,
+    "height": 60,
+    "hoverRegionHeight": 2,
+    "hoverToReveal": true,
+    "ignoredAppRegexes": [],
+    "monochromeIcons": false,
+    "pinnedApps": [
+      "org.kde.dolphin",
+      "zen"
+    ],
+    "pinnedOnStartup": false
+  },
+  "hacks": {
+    "arbitraryRaceConditionDelay": 20
+  },
+  "interactions": {
+    "deadPixelWorkaround": {
+      "enable": false
+    },
+    "scrolling": {
+      "fasterTouchpadScroll": false,
+      "mouseScrollDeltaThreshold": 120,
+      "mouseScrollFactor": 120,
+      "touchpadScrollFactor": 450
+    }
+  },
+  "language": {
+    "translator": {
+      "engine": "auto",
+      "sourceLanguage": "auto",
+      "targetLanguage": "auto"
+    },
+    "ui": "auto"
+  },
+  "launcher": {
+    "pinnedApps": [
+      "org.kde.dolphin",
+      "kitty",
+      "cmake-gui"
+    ]
+  },
+  "light": {
+    "antiFlashbang": {
+      "enable": false
+    },
+    "night": {
+      "automatic": true,
+      "colorTemperature": 5528,
+      "from": "19:00",
+      "to": "06:30"
+    }
+  },
+  "lock": {
+    "blur": {
+      "enable": true,
+      "extraZoom": 1.04,
+      "radius": 100
+    },
+    "centerClock": true,
+    "launchOnStartup": true,
+    "materialShapeChars": true,
+    "security": {
+      "requirePasswordToPower": false,
+      "unlockKeyring": true
+    },
+    "showLockedText": true,
+    "useHyprlock": false
+  },
+  "media": {
+    "filterDuplicatePlayers": true
+  },
+  "musicRecognition": {
+    "interval": 4,
+    "timeout": 16
+  },
+  "networking": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+  },
+  "notifications": {
+    "monitor": {
+      "enable": false,
+      "name": ""
+    },
+    "timeout": 7000
+  },
+  "osd": {
+    "timeout": 3000
+  },
+  "osk": {
+    "layout": "qwerty_full",
+    "pinnedOnStartup": false
+  },
+  "overlay": {
+    "clickthroughOpacity": 0.8,
+    "darkenScreen": true,
+    "floatingImage": {
+      "imageSource": "https://media.tenor.com/H5U5bJzj3oAAAAAi/kukuru.gif",
+      "scale": 0.5
+    },
+    "openingZoomAnimation": true
+  },
+  "overview": {
+    "centerIcons": true,
+    "columns": 5,
+    "enable": true,
+    "orderBottomUp": false,
+    "orderRightLeft": false,
+    "rows": 2,
+    "scale": 0.18
+  },
+  "panelFamily": "ii",
+  "policies": {
+    "ai": 1,
+    "weeb": 1
+  },
+  "regionSelector": {
+    "annotation": {
+      "useSatty": false
+    },
+    "circle": {
+      "padding": 10,
+      "strokeWidth": 6
+    },
+    "rect": {
+      "showAimLines": true
+    },
+    "targetRegions": {
+      "content": true,
+      "contentRegionOpacity": 0.8,
+      "layers": false,
+      "opacity": 0.3,
+      "selectionPadding": 5,
+      "showLabel": false,
+      "windows": true
+    }
+  },
+  "resources": {
+    "historyLength": 60,
+    "updateInterval": 3000
+  },
+  "screenRecord": {
+    "savePath": "/home/ayush/Videos"
+  },
+  "screenSnip": {
+    "savePath": ""
+  },
+  "search": {
+    "engineBaseUrl": "https://www.google.com/search?q=",
+    "excludedSites": [
+      "quora.com",
+      "facebook.com"
+    ],
+    "imageSearch": {
+      "imageSearchEngineBaseUrl": "https://lens.google.com/uploadbyurl?url=",
+      "useCircleSelection": false
+    },
+    "nonAppResultDelay": 30,
+    "prefix": {
+      "action": "/",
+      "app": ">",
+      "clipboard": ";",
+      "emojis": ":",
+      "math": "=",
+      "shellCommand": "$",
+      "showDefaultActionsWithoutPrefix": true,
+      "webSearch": "?"
+    },
+    "sloppy": false
+  },
+  "sidebar": {
+    "ai": {
+      "textFadeIn": false
+    },
+    "booru": {
+      "allowNsfw": false,
+      "defaultProvider": "yandere",
+      "limit": 20,
+      "zerochan": {
+        "username": "[unset]"
+      }
+    },
+    "cornerOpen": {
+      "bottom": false,
+      "clickless": false,
+      "clicklessCornerEnd": false,
+      "clicklessCornerVerticalOffset": 1,
+      "cornerRegionHeight": 5,
+      "cornerRegionWidth": 250,
+      "enable": true,
+      "valueScroll": true,
+      "visualize": false
+    },
+    "keepRightSidebarLoaded": true,
+    "quickSliders": {
+      "enable": true,
+      "showBrightness": true,
+      "showMic": true,
+      "showVolume": true
+    },
+    "quickToggles": {
+      "android": {
+        "columns": 5,
+        "toggles": [
+          {
+            "size": 2,
+            "type": "network"
+          },
+          {
+            "size": 2,
+            "type": "bluetooth"
+          },
+          {
+            "size": 1,
+            "type": "idleInhibitor"
+          },
+          {
+            "size": 1,
+            "type": "mic"
+          },
+          {
+            "size": 2,
+            "type": "audio"
+          },
+          {
+            "size": 2,
+            "type": "nightLight"
+          }
+        ]
+      },
+      "style": "android"
+    },
+    "translator": {
+      "delay": 300,
+      "enable": false
+    }
+  },
+  "sounds": {
+    "battery": true,
+    "pomodoro": false,
+    "theme": "freedesktop"
+  },
+  "time": {
+    "dateFormat": "ddd, dd/MM",
+    "dateWithYearFormat": "dd/MM/yyyy",
+    "format": "hh:mm",
+    "pomodoro": {
+      "breakTime": 300,
+      "cyclesBeforeLongBreak": 4,
+      "focus": 1500,
+      "longBreak": 900
+    },
+    "secondPrecision": false,
+    "shortDateFormat": "dd/MM"
+  },
+  "tray": {
+    "filterPassive": true,
+    "invertPinnedItems": true,
+    "monochromeIcons": false,
+    "pinnedItems": [
+      "Fcitx"
+    ],
+    "showItemId": false
+  },
+  "updates": {
+    "adviseUpdateThreshold": 75,
+    "checkInterval": 120,
+    "enableCheck": true,
+    "stronglyAdviseUpdateThreshold": 200
+  },
+  "waffles": {
+    "actionCenter": {
+      "toggles": [
+        "network",
+        "bluetooth",
+        "easyEffects",
+        "powerProfile",
+        "idleInhibitor",
+        "nightLight",
+        "darkMode",
+        "antiFlashbang",
+        "cloudflareWarp",
+        "mic",
+        "musicRecognition",
+        "notifications",
+        "onScreenKeyboard",
+        "gameMode",
+        "screenSnip",
+        "colorPicker"
+      ]
+    },
+    "bar": {
+      "bottom": true,
+      "leftAlignApps": false
+    },
+    "calendar": {
+      "force2CharDayOfWeek": true
+    },
+    "tweaks": {
+      "smootherMenuAnimations": true,
+      "smootherSearchBar": true,
+      "switchHandlePositionFix": true
+    }
+  },
+  "wallpaperSelector": {
+    "useSystemFileDialog": false
+  },
+  "windows": {
+    "centerTitle": true,
+    "showTitlebar": true
+  },
+  "workSafety": {
+    "enable": {
+      "clipboard": false,
+      "wallpaper": false
+    },
+    "triggerCondition": {
+      "fileKeywords": [
+        "anime",
+        "booru",
+        "ecchi",
+        "hentai",
+        "yande.re",
+        "konachan",
+        "breast",
+        "nipples",
+        "pussy",
+        "nsfw",
+        "spoiler",
+        "girl"
+      ],
+      "linkKeywords": [
+        "hentai",
+        "porn",
+        "sukebei",
+        "hitomi.la",
+        "rule34",
+        "gelbooru",
+        "fanbox",
+        "dlsite"
+      ],
+      "networkNameKeywords": [
+        "airport",
+        "cafe",
+        "college",
+        "company",
+        "eduroam",
+        "free",
+        "guest",
+        "public",
+        "school",
+        "university"
+      ]
+    }
+  }
+}

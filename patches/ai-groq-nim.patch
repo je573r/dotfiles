@@ -1,0 +1,60 @@
+--- a/.config/quickshell/ii/services/Ai.qml
++++ b/.config/quickshell/ii/services/Ai.qml
+@@ -23,6 +23,7 @@
+     property Component geminiApiStrategy: GeminiApiStrategy {}
+     property Component openaiApiStrategy: OpenAiApiStrategy {}
+     property Component mistralApiStrategy: MistralApiStrategy {}
++    property Component openaiCompatApiStrategy: OpenAiCompatApiStrategy {} // [local] Groq, NVIDIA NIM, etc.
+     readonly property string interfaceRole: "interface"
+     readonly property string apiKeyEnvVarName: "API_KEY"
+ 
+@@ -235,7 +236,9 @@
+             "none": [],
+         }
+     }
+-    property list<var> availableTools: Object.keys(root.tools[models[currentModelId]?.api_format])
++    // [local] Formats without their own entry (e.g. openai_compat) reuse the OpenAI tool definitions
++    function toolsForFormat(format) { return root.tools[format] ?? root.tools["openai"]; }
++    property list<var> availableTools: Object.keys(root.toolsForFormat(models[currentModelId]?.api_format))
+     property var toolDescriptions: {
+         "functions": Translation.tr("Commands, edit configs, search.\nTakes an extra turn to switch to search mode if that's needed"),
+         "search": Translation.tr("Gives the model search capabilities (immediately)"),
+@@ -302,6 +305,7 @@
+         "openai": openaiApiStrategy.createObject(this),
+         "gemini": geminiApiStrategy.createObject(this),
+         "mistral": mistralApiStrategy.createObject(this),
++        "openai_compat": openaiCompatApiStrategy.createObject(this), // [local]
+     }
+     property ApiStrategy currentApiStrategy: apiStrategies[models[currentModelId]?.api_format || "openai"]
+ 
+@@ -609,7 +613,7 @@
+             const endpoint = root.currentApiStrategy.buildEndpoint(model);
+             const messageArray = root.messageIDs.map(id => root.messageByID[id]);
+             const filteredMessageArray = messageArray.filter(message => message.role !== Ai.interfaceRole);
+-            const data = root.currentApiStrategy.buildRequestData(model, filteredMessageArray, root.systemPrompt, root.temperature, root.tools[model.api_format][root.currentTool], root.pendingFilePath);
++            const data = root.currentApiStrategy.buildRequestData(model, filteredMessageArray, root.systemPrompt, root.temperature, root.toolsForFormat(model.api_format)[root.currentTool], root.pendingFilePath);
+             // console.log("[Ai] Request data: ", JSON.stringify(data, null, 2));
+ 
+             let requestHeaders = {
+@@ -704,12 +708,21 @@
+         onExited: (exitCode, exitStatus) => {
+             const result = requester.currentStrategy.onRequestFinished(requester.message);
+             
++            // [local] Strategies may hand back a tool call once the stream has ended (openai_compat)
++            if (result.functionCall) requester.message.functionCall = result.functionCall;
++
+             if (result.finished) {
+                 requester.markDone();
+             } else if (!requester.message.done) {
+                 requester.markDone();
+             }
+ 
++            if (result.functionCall) {
++                const call = result.functionCall;
++                const callMessage = requester.message;
++                Qt.callLater(() => root.handleFunctionCall(call.name, call.args, callMessage));
++            }
++
+             // Handle error responses
+             if (requester.message.content.includes("API key not valid")) {
+                 root.addApiKeyAdvice(models[requester.message.model]);
